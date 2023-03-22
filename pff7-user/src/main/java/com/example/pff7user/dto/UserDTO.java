@@ -4,14 +4,24 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.example.pff7user.entities.User;
 
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	@Size(min = 5, max = 60, message = "O nome deve ter entre 5 a 60 caracteres")
+	@NotBlank(message = "Campo requerido")
 	private String name;
+	
+	@Email(message = "favor entrar um email válido")
 	private String email;
+	
 	private String password;
 
 	private Set<RoleDTO> roles = new HashSet<>();
