@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.pff7user.dto.RoleDTO;
 import com.example.pff7user.dto.UserDTO;
+import com.example.pff7user.dto.UserInsertDTO;
+import com.example.pff7user.dto.UserUpdateDTO;
 import com.example.pff7user.entities.Role;
 import com.example.pff7user.entities.User;
 import com.example.pff7user.repositories.RoleRepository;
@@ -45,7 +47,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO insert(UserDTO dto) {
+	public UserDTO insert(UserInsertDTO dto) {
 		User entity = new User();
 		copyDtoToEntity(dto, entity);
 		entity.setPassword(dto.getPassword());
@@ -55,7 +57,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO update(Long id, UserDTO dto) {
+	public UserDTO update(Long id, UserUpdateDTO dto) {
 		try {
 			User entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
