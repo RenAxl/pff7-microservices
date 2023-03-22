@@ -72,5 +72,12 @@ public class UserResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping(value = "/search")
+	public ResponseEntity<UserDTO> findByEmail(@RequestParam String email) {
+		UserDTO userDto = service.findByEmail(email);
+		
+		return ResponseEntity.ok().body(userDto);
+	}
 
 }

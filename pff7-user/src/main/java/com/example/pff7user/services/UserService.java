@@ -78,6 +78,16 @@ public class UserService {
 		}
 	}
 
+	public UserDTO findByEmail(String email) {
+		try {
+			User entity = repository.findByEmail(email);
+
+			return new UserDTO(entity);
+		} catch (NullPointerException e) {
+			throw new ResourceNotFoundException("Email not found " + email);
+		}
+	}
+
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
