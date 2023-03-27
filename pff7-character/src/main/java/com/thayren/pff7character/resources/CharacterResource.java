@@ -2,6 +2,8 @@ package com.thayren.pff7character.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +54,7 @@ public class CharacterResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CharacterDTO> insert(@RequestBody CharacterDTO dto){
+	public ResponseEntity<CharacterDTO> insert(@Valid @RequestBody CharacterDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
@@ -60,7 +62,7 @@ public class CharacterResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CharacterDTO> update(@PathVariable Long id, @RequestBody CharacterDTO dto){
+	public ResponseEntity<CharacterDTO> update(@PathVariable Long id, @Valid @RequestBody CharacterDTO dto){
 		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}

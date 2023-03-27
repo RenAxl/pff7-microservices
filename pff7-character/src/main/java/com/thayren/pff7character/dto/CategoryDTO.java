@@ -2,6 +2,9 @@ package com.thayren.pff7character.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.thayren.pff7character.entities.Category;
 
 public class CategoryDTO implements Serializable {
@@ -9,6 +12,8 @@ public class CategoryDTO implements Serializable {
 
 	private Long id;
 
+	@Size(min = 5, max = 60, message ="O nome deve ter entre 5 a 60 caracteres")
+	@NotBlank(message = "Campo requerido")
 	private String name;
 
 	public CategoryDTO() {
