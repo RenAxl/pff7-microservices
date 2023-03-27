@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import com.thayren.pff7character.entities.Category;
 import com.thayren.pff7character.entities.Character;
 import com.thayren.pff7character.repositories.CategoryRepository;
 import com.thayren.pff7character.repositories.CharacterRepository;
+import com.thayren.pff7character.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CharacterService {
@@ -38,7 +42,7 @@ public class CharacterService {
 	@Transactional(readOnly = true)
 	public CharacterDTO findById(Long id) {
 		Optional<Character> obj = repository.findById(id);
-		Character entity = obj.get();
+		Character entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 
 		return new CharacterDTO(entity);
 	}
@@ -54,15 +58,24 @@ public class CharacterService {
 
 	@Transactional
 	public CharacterDTO update(Long id, CharacterDTO dto) {
-		Character entity = repository.getOne(id);
-		copyDtoToEntity(dto, entity);
-		entity = repository.save(entity);
+		try {
+			Character entity = repository.getOne(id);
+			copyDtoToEntity(dto, entity);
+			entity = repository.save(entity);
 
-		return new CharacterDTO(entity);
+			return new CharacterDTO(entity);
+
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}
 	}
 
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}
 	}
 
 	private void copyDtoToEntity(CharacterDTO dto, Character entity) {
