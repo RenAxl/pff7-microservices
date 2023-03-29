@@ -82,11 +82,11 @@ public class UserService {
 		}
 	}
 
-	public UserDTO findByEmail(String email) {
+	public User findByEmail(String email) {
 		try {
-			User entity = repository.findByEmail(email);
+			User user = repository.findByEmail(email);
 
-			return new UserDTO(entity);
+			return user;
 		} catch (NullPointerException e) {
 			throw new ResourceNotFoundException("Email not found " + email);
 		}

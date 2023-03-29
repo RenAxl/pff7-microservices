@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.pff7user.dto.UserDTO;
 import com.example.pff7user.dto.UserInsertDTO;
 import com.example.pff7user.dto.UserUpdateDTO;
+import com.example.pff7user.entities.User;
 import com.example.pff7user.services.UserService;
 
 @RestController
@@ -74,10 +75,10 @@ public class UserResource {
 	}
 	
 	@GetMapping(value = "/search")
-	public ResponseEntity<UserDTO> findByEmail(@RequestParam String email) {
-		UserDTO userDto = service.findByEmail(email);
+	public ResponseEntity<User> findByEmail(@RequestParam String email) {
+		User user = service.findByEmail(email);
 		
-		return ResponseEntity.ok().body(userDto);
+		return ResponseEntity.ok().body(user);
 	}
 
 }
